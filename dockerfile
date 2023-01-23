@@ -15,4 +15,5 @@ FROM scratch
 
 COPY --from=builder ["/build/server", "/"]
 
+EXPOSE 3000
 ENTRYPOINT ["/server"]
