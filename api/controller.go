@@ -9,21 +9,29 @@ import (
 const MAX_PEERS = 3
 
 type Controller struct {
-	Counter uint
-	Closer  chan struct{}
-	mu      sync.Mutex
+	Reservations map[string]struct{}
+	Closer       chan struct{}
+	mu           sync.Mutex
 }
 
-func (controller *Controller) increaseCounter() bool {
+func (controller *Controller) reserve(id string) bool {
 	controller.mu.Lock()
 	defer controller.mu.Unlock()
 
-	if controller.Counter >= MAX_PEERS {
+	if len(controller.Reservations) >= MAX_PEERS {
 		return false
 	}
 
-	controller.Counter++
+	controller.Reservations[id] = struct{}{}
 	return true
+}
+
+func (controller *Controller) checkReservation(id string) bool {
+	controller.mu.Lock()
+	defer controller.mu.Unlock()
+
+	_, ok := controller.Reservations[id]
+	return ok
 }
 
 func (controller *Controller) HandleCloseRequest(c *fiber.Ctx) error {
@@ -32,10 +40,22 @@ func (controller *Controller) HandleCloseRequest(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusOK)
 }
 
-func (controller *Controller) HandleReserveRequest(c *fiber.Ctx) error {
-	if controller.increaseCounter() {
+func (controller *Controller) HandlePostReservationRequest(c *fiber.Ctx) error {
+	stringID := c.Params("id")
+
+	if controller.reserve(stringID) {
 		return c.SendStatus(fiber.StatusOK)
 	}
 
 	return c.SendStatus(fiber.StatusForbidden)
+}
+
+func (controller *Controller) HandleGetReservationRequest(c *fiber.Ctx) error {
+	stringID := c.Params("id")
+
+	if controller.checkReservation(stringID) {
+		return c.SendStatus(fiber.StatusOK)
+	}
+
+	return c.SendStatus(fiber.StatusNotFound)
 }

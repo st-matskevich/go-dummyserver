@@ -19,10 +19,12 @@ func main() {
 	)
 
 	closer := make(chan struct{})
-	controller := api.Controller{Closer: closer, Counter: 0}
+	controller := api.Controller{Closer: closer, Reservations: make(map[string]struct{})}
 
 	app.Post("/close", controller.HandleCloseRequest)
-	app.Post("/reserve", controller.HandleReserveRequest)
+
+	app.Post("/reservation/:id", controller.HandlePostReservationRequest)
+	app.Get("/reservation/:id", controller.HandleGetReservationRequest)
 
 	go func() {
 		log.Fatal(app.Listen(":3000"))
