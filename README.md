@@ -1,6 +1,6 @@
 # Go-Dummyserver
 
-Dummy server which implementes <code>[Reservation API](https://github.com/st-matskevich/go-matchmaker#reservation-api)</code> for <b>[go-matchmaker](https://github.com/st-matskevich/go-matchmaker)</b>.
+Dummy server which implementes <b>[Reservation API](https://github.com/st-matskevich/go-matchmaker#reservation-api)</b> for <b>[go-matchmaker](https://github.com/st-matskevich/go-matchmaker)</b>.
 
 Can be used as example or test image.
 
@@ -11,7 +11,7 @@ Can be used as example or test image.
 
 ## License
 
-Distributed under the MIT License. See <code>[LICENSE](LICENSE)</code> for more information.
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 ## Contributing
 
