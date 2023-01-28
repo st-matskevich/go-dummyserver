@@ -2,7 +2,7 @@
 
 Dummy server which implementes <b>[Reservation API](https://github.com/st-matskevich/go-matchmaker#reservation-api)</b> for <b>[go-matchmaker](https://github.com/st-matskevich/go-matchmaker)</b>.
 
-Can be used as example or test image.
+Can be used as example or test image. Available as [image](https://hub.docker.com/r/stmatskevich/go-dummyserver) on Docker Hub.
 
 ## Built with
 
